@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% if work %}
+    {% set page_title = "تعديل العمل" %}
+{% else %}
+    {% set page_title = "إضافة عمل جديد" %}
+{% endif %}
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<main class="container section">
+    <div class="admin-form-card">
+        <h1>{{ page_title }}</h1>
+        <p>أضف العمل مع صورة عالية الجودة وتصنيف مناسب.</p>
+
+        <form method="POST" enctype="multipart/form-data" class="form-grid">
+            <label for="title">عنوان العمل</label>
+            <input id="title" name="title" type="text" value="{{ work.title if work else '' }}" required>
+
+            <label for="category_id">التصنيف</label>
+            <select id="category_id" name="category_id" required>
+                <option value="">-- اختر تصنيفًا --</option>
+                {% for category in categories %}
+                    <option
+                        value="{{ category.id }}"
+                        {% if work and work.category_id == category.id %}selected{% endif %}
+                    >
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="image">الصورة {% if work %}(اختياري عند التعديل){% endif %}</label>
+            <input id="image" name="image" type="file" accept=".jpg,.jpeg,.png,.webp" {% if not work %}required{% endif %}>
+
+            {% if work %}
+                <div class="current-image">
+                    <p>الصورة الحالية:</p>
+                    <img src="{{ url_for('static', filename='uploads/' ~ work.image_filename) }}" alt="{{ work.title }}">
+                </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">حفظ</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">رجوع</a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

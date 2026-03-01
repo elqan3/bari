@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}الصفحة غير موجودة{% endblock %}
+
+{% block content %}
+<main class="container section not-found">
+    <h1>404</h1>
+    <p>عذرًا، الصفحة المطلوبة غير موجودة.</p>
+    <a class="btn btn-primary" href="{{ url_for('index') }}">العودة للرئيسية</a>
+</main>
+{% endblock %}

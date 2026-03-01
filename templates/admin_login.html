@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}تسجيل دخول الإدارة{% endblock %}
+
+{% block content %}
+<main class="admin-auth-wrap">
+    <section class="admin-auth-card">
+        <h1>لوحة الإدارة</h1>
+        <p>تسجيل دخول بسيط لإدارة معرض الأعمال.</p>
+
+        <form method="POST" class="form-grid">
+            <label for="username">اسم المستخدم</label>
+            <input id="username" name="username" type="text" required>
+
+            <label for="password">كلمة المرور</label>
+            <input id="password" name="password" type="password" required>
+
+            <button type="submit" class="btn btn-primary full">دخول</button>
+        </form>
+
+        <a href="{{ url_for('index') }}" class="admin-back-link">العودة للواجهة الرئيسية</a>
+    </section>
+</main>
+{% endblock %}

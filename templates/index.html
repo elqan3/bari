@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}هوية للتصميم الجرافيكي | معرض الأعمال{% endblock %}
+
+{% block content %}
+<nav class="site-navbar">
+    <div class="container navbar-inner">
+        <a href="#home" class="brand">هوية</a>
+
+        <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-links">
+            <a href="#home">الرئيسية</a>
+            <a href="#portfolio">الأعمال</a>
+            <a href="#about">من نحن</a>
+            <a href="#contact">تواصل معنا</a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <p class="kicker">هوية بصرية تصنع أثرًا</p>
+        <h1>هوية للتصميم الجرافيكي</h1>
+        <p class="subtitle">
+            نصمم تجارب بصرية أنيقة تدمج الإبداع مع الاحتراف، لتمنح علامتك حضورًا واضحًا ومميزًا.
+        </p>
+        <div class="hero-actions">
+            <a href="#portfolio" class="btn btn-primary">تصفح الأعمال</a>
+            <a href="#contact" class="btn btn-secondary">تواصل معنا</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="section container" id="portfolio">
+        <div class="section-head">
+            <h2>معرض الأعمال</h2>
+            <p>نماذج مختارة بعناية ضمن تصنيفات مختلفة.</p>
+        </div>
+
+        {% for category in categories %}
+            <article class="category-block" id="category-{{ category.id }}">
+                <h3>{{ category.name }}</h3>
+                {% set category_works = works_by_category.get(category.id, []) %}
+                {% if category_works %}
+                    <div class="portfolio-grid">
+                        {% for work in category_works %}
+                            <figure class="work-card">
+                                <button
+                                    class="work-image-btn"
+                                    type="button"
+                                    data-image-src="{{ url_for('static', filename='uploads/' ~ work.image_filename) }}"
+                                    data-image-alt="{{ work.title }}"
+                                    aria-label="عرض صورة {{ work.title }} بالحجم الكامل"
+                                >
+                                    <img
+                                        src="{{ url_for('static', filename='uploads/' ~ work.image_filename) }}"
+                                        alt="{{ work.title }}"
+                                        loading="lazy"
+                                    >
+                                </button>
+                                <figcaption>{{ work.title }}</figcaption>
+                            </figure>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">لا توجد أعمال ضمن هذا التصنيف حتى الآن.</div>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </section>
+
+    <section class="section about-section" id="about">
+        <div class="container about-grid">
+            <div class="about-icon" aria-hidden="true">✦</div>
+            <div class="about-content">
+                <div class="section-head">
+                    <h2>من نحن</h2>
+                </div>
+                <p>
+                    نحن استوديو تصميم جرافيكي متخصص في بناء هويات بصرية حديثة تجمع بين الإبداع والوضوح.
+                    نعمل مع المطاعم والمتاجر والمؤسسات والأفراد لإنتاج تصاميم تعكس شخصية العلامة باحتراف.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="section-head">
+                <h2>تواصل معنا</h2>
+                <p>يسعدنا التعاون على مشروعك القادم.</p>
+            </div>
+            <div class="contact-grid">
+                <a href="#" class="contact-card">واتساب<br><span>+966 5X XXX XXXX</span></a>
+                <a href="#" class="contact-card">البريد الإلكتروني<br><span>hello@example.com</span></a>
+                <a href="#" class="contact-card">إنستغرام<br><span>@hawiyah.design</span></a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>© {{ 2026 }} هوية للتصميم الجرافيكي. جميع الحقوق محفوظة.</p>
+    </div>
+</footer>
+
+<div class="lightbox" id="portfolio-lightbox" aria-hidden="true">
+    <div class="lightbox-backdrop" data-close-lightbox></div>
+    <div class="lightbox-content" role="dialog" aria-modal="true" aria-label="عرض الصورة">
+        <button class="lightbox-close" type="button" aria-label="إغلاق" data-close-lightbox>×</button>
+        <img id="lightbox-image" src="" alt="">
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
